@@ -9,9 +9,9 @@ const PORT = process.env.PORT || 8080;
 const app = express()
 app.use(express.json())
 
-app.get("/income", incomeRoutes);
-app.get("/expenses", expenseRoutes);
-app.get("/users", userRoutes);
+app.use("/income", incomeRoutes);
+//app.get("/expenses", expenseRoutes);
+//app.get("/users", userRoutes);
 
 
 app.listen(PORT, () => {
