@@ -10,8 +10,8 @@ const app = express()
 app.use(express.json())
 
 app.use("/income", incomeRoutes);
-//app.get("/expenses", expenseRoutes);
-//app.get("/users", userRoutes);
+app.use("/expenses", expenseRoutes);
+app.use("/users", userRoutes);
 
 
 app.listen(PORT, () => {
