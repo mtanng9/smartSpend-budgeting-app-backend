@@ -4,6 +4,7 @@ const expenseRoutes = require('./routes/expense')
 const incomeRoutes = require('./routes/income')
 const userRoutes = require('./routes/user');
 const Income = require('./models/Income');
+const Expense = require('./models/Expense');
 
 const PORT = process.env.PORT || 8080;
 
@@ -33,6 +34,9 @@ async function startDb() {
 async function syncDB() {
     await Income.sync()
     console.log("Table for Income model was successfully created")
+
+    await Expense.sync()
+    console.log("Table for Expense model was successfully created")
 }
 
 async function temp() {
