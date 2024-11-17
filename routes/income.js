@@ -1,23 +1,16 @@
 const express = require('express');
+const IncomeController = require('../controllers/IncomeController');
 const router = express.Router();
 
-router.get("/", (request, response) => {
-    response.json({income: 1000})
-})
+router.get("/", IncomeController.getAllIncomes)
 
-router.post("/", (request, response) => {
-    response.json({income: "created a new income"})
-})
+router.get("/:id", IncomeController.getIncomeById)
 
-router.put("/:id", (request, response) => {
-    let msg = `updated income for: ${request.params.id}`
-    response.json({income: msg})
-})
+router.post("/", IncomeController.createIncome)
 
-router.delete("/:id", (request, response) => {
-    let msg = `deleted income for: ${request.params.id}`
-    response.json({income: msg})
-})
+router.put("/:id", IncomeController.updatedIncomeById)
+
+router.delete("/:id", IncomeController.deleteIncomeById)
 
 
 
