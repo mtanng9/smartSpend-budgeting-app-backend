@@ -3,15 +3,15 @@ const { NotAuthError } = require('./errors');
 
 const KEY = 'supersecret';
 
-function createJSONToken(email) {
-  return sign({ email }, KEY, { expiresIn: '1h' });
+function createJSONToken(email, userId) {
+  return sign({ email, userId }, KEY, { expiresIn: '1h' });
 }
 
 function validateJSONToken(token) {
   return verify(token, KEY);
 }
 
-function checkAuthMiddleware(req, res, next) {
+function getToken(req) {
   if (req.method === 'OPTIONS') {
     return next();
   }
@@ -25,7 +25,11 @@ function checkAuthMiddleware(req, res, next) {
     console.log('NOT AUTH. AUTH HEADER INVALID.');
     return next(new NotAuthError('Not authenticated.'));
   }
-  const authToken = authFragments[1];
+  return authFragments[1];
+}
+
+function checkAuthMiddleware(req, res, next) {
+  const authToken = getToken(req);
   try {
     const validatedToken = validateJSONToken(authToken);
     req.token = validatedToken;

@@ -1,24 +1,12 @@
 const express = require('express');
+const { verifyOwner, getUserIdFromToken } = require('../util/auth');
+const UserController = require('../controllers/UserController');
 const router = express.Router();
 
-router.get("/", (request, response) => {
-    response.json({user: 1000})
-})
+router.get("/", UserController.getUserById)
 
-router.post("/", (request, response) => {
-    response.json({user: "created a new user"})
-})
+router.put("/", UserController.updateUser)
 
-router.put("/:id", (request, response) => {
-    let msg = `updated user for: ${request.params.id}`
-    response.json({user: msg})
-})
-
-router.delete("/:id", (request, response) => {
-    let msg = `deleted user for: ${request.params.id}`
-    response.json({user: msg})
-})
-
-
+router.delete("/", UserController.deleteUser)
 
 module.exports = router;

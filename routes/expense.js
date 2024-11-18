@@ -2,7 +2,7 @@ const express = require('express');
 const ExpenseController = require('../controllers/ExpenseController');
 const router = express.Router();
 
-router.get("/", ExpenseController.getAllExpenses)
+router.get("/", ExpenseController.getExpensesByUserId)
 
 router.get("/:id", ExpenseController.getExpenseById)
 

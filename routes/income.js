@@ -2,9 +2,9 @@ const express = require('express');
 const IncomeController = require('../controllers/IncomeController');
 const router = express.Router();
 
-router.get("/", IncomeController.getAllIncomes)
+router.get("/", IncomeController.getIncomesByUserId)
 
-router.get("/:id", IncomeController.getIncomeById)
+router.get("/:id", IncomeController.getIncomesByUserIdAndId)
 
 router.post("/", IncomeController.createIncome)
 

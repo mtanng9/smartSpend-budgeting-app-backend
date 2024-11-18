@@ -1,8 +1,12 @@
 const Income = require("../models/Income");
 
 module.exports = {
-    getAllIncomes: function(request, response) {
-        Income.findAll()
+    getIncomesByUserId: function(request, response) {
+        Income.findAll({
+            where: {
+                userId: request.token.userId
+            }
+        })
         .then((incomes) => {
             return response.status(200).json({
                 incomes: incomes
@@ -14,15 +18,16 @@ module.exports = {
             })
         })
     },
-    getIncomeById: function(request, response) {
-        Income.findAll({
+    getIncomesByUserIdAndId: function(request, response) {
+        Income.findOne({
             where: {
-                id: request.params.id
+                is: request.params.id,
+                userId: request.token.userId
             }
         })
-        .then((income) => {
+        .then((incomes) => {
             return response.status(200).json({
-                income: income
+                incomes: incomes
             })
         })
         .catch((err) => {
@@ -34,7 +39,7 @@ module.exports = {
     createIncome: function(request, response) {
         const body = request.body
         Income.create({
-            userId: body.userId,
+            userId: request.token.userId,
             amount: body.amount,
             title: body.title,
         })
@@ -52,12 +57,12 @@ module.exports = {
     updatedIncomeById: function(request, response) {
         const body = request.body
         Income.update({
-            userId: body.userId,
             amount: body.amount,
             title: body.title,
         }, {
             where: {
-                id: request.params.id
+                id: request.params.id,
+                userId: request.token.userId
             }
         })
         .then((income) => {
@@ -75,7 +80,8 @@ module.exports = {
     deleteIncomeById: function(request, response) {
         Income.destroy({
             where: {
-                id: request.params.id
+                id: request.params.id,
+                userId: request.token.userId
             }
         })
         .then((income) => {

@@ -13,9 +13,10 @@ module.exports = {
         })
         .then((user) => {
             let email = user.email
+            let userId = user.id
             return response.status(200).json({
                 user: user.id,
-                token: createJSONToken(email)
+                token: createJSONToken(email, userId)
             })
         })
         .catch((err) => {
@@ -36,10 +37,11 @@ module.exports = {
             console.log(user)
             let pass = user.password
             let email = user.email
+            let userId = user.id
             if (pass === body.password) {
                 return response.status(200).json({
                     user: user.id,
-                    token: createJSONToken(email)
+                    token: createJSONToken(email, userId)
                 })
             } else {
                 throw new Error("ya f'd up")

@@ -1,11 +1,15 @@
 const Expense = require("../models/Expense")
 
 module.exports = {
-    getAllExpenses: function(request, response) {
-        Expense.findAll()
-        .then((expenses) => {
+    getExpensesByUserId: function(request, response) {
+        Expense.findAll({
+            where: {
+                userId: request.token.userId
+            }
+        })
+        .then((expense) => {
             return response.status(200).json({
-                expenses: expenses
+                expense: expense
             })
         })
         .catch((err) => {
@@ -15,9 +19,10 @@ module.exports = {
         })
     },
     getExpenseById: function(request, response) {
-        Expense.findAll({
+        Expense.findOne({
             where: {
-                id: request.params.id
+                id: request.params.id,
+                userId: request.token.userId
             }
         })
         .then((expense) => {
@@ -34,7 +39,7 @@ module.exports = {
     createExpense: function(request, response) {
         const body = request.body
         Expense.create({
-            userId: body.userId,
+            userId: request.token.userId,
             amount: body.amount,
             title: body.title,
         })
@@ -52,12 +57,12 @@ module.exports = {
     updatedExpenseById: function(request, response) {
         const body = request.body
         Expense.update({
-            userId: body.userId,
             amount: body.amount,
             title: body.title,
         }, {
             where: {
-                id: request.params.id
+                id: request.params.id,
+                userId: request.token.userId
             }
         })
         .then((expense) => {
@@ -75,7 +80,8 @@ module.exports = {
     deleteExpenseById: function(request, response) {
         Expense.destroy({
             where: {
-                id: request.params.id
+                id: request.params.id,
+                userId: request.token.userId
             }
         })
         .then((expense) => {
