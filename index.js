@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const sequelize = require('./storage/sqlite')
 const expenseRoutes = require('./routes/expense')
 const incomeRoutes = require('./routes/income')
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 8080;
 
 function startExpressServer() {    
     const app = express()
+    app.use(cors())
     app.use(express.json())
     app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
